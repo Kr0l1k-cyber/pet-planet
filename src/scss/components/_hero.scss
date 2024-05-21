@@ -35,6 +35,20 @@
 		background-image: url('/img/bg-dog-mobile.png'), url('/img/pattern.svg');
 	}
 
+	&_store {
+		background-color: $green;
+		background-image: url('/img/bg-cat.png'), url('/img/pattern.svg');
+		background-size: 839px, auto;
+	}
+
+	@include laptop {
+		background-size: 639px, auto;
+	}
+
+	@include tablet {
+		background-size: 100%, auto;
+	}
+
 	&__title {
 		width: 810px;
 		max-width: 100%;
@@ -52,6 +66,7 @@
 		@include mobile {
 			margin-bottom: 16px;
 		}
+		
 	}
 
 	&__text {
@@ -81,6 +96,10 @@
 		font-weight: 700;
 		text-align: center;
 		color: $light;
+		outline: 1px solid transparent;
+		transition-property: background-color, transform;
+		transition-duration: 0.3s, 0.2s;
+		transition-timing-function: ease-in-out;
 
 		&::after {
 			content: '';
@@ -88,6 +107,25 @@
 			width: 16px;
 			height: 16px;
 			background: url('/img/arrow-to-store.svg') no-repeat center/contain;
+		}
+
+		&:hover {
+			background: #00772f;
+		}
+		&:active {
+			transform: scale(0.9);
+		}
+
+		&:focus-visible {
+			outline-color: $carrot;
+		}
+
+		@include laptop {
+			padding: 16px 36px;
+		}
+
+		@include mobile {
+			padding: 11px 24px;
 		}
 	}
 }
