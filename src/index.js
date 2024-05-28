@@ -17,7 +17,31 @@ buttons.forEach(button => {
 const API_URL ='https://kind-frost-servant.glitch.me';
 // api/products/category/%D0%9B%D0%B5%D0%B6%D0%B0%D0%BD%D0%BA%D0%B8
 
-const productList = document.querySelector('.store__item');
+const productList = document.querySelector('.store__list');
+
+const createProductCard = (product) => {
+	const productCard = document.createElement('li');
+	productCard.classList.add('store__item');
+	productCard.innerHTML =
+		`<article class="store__product product">
+			<img src="${API_URL}${product.photoUrl}" alt="${product.name}" class="product__image" width="388" height="261">
+			<h3 class="product__title">${product.name}</h3>
+			<p class="product__price">${product.price}&nbsp;₽</p>
+			<button class="product__btn-add-cart">Заказать</button>
+		</article>
+		`;
+
+		return productCard;
+};
+
+const renderProducts = (products) => {
+	productList.textContent = "";
+	products.forEach(product => {
+		const productCard = createProductCard(product);
+
+		productList.append(productCard);
+	});
+}
 
 const fettchProductByCategory = async (category) => {
 	try {
@@ -28,9 +52,9 @@ const fettchProductByCategory = async (category) => {
 		};
 
 		const products = await response.json();
-		console.log("products: ", products);
 
-		console.log("response", response);
+		renderProducts(products);
+		// console.log("products: ", products);
 
 	} catch (error) {
 		console.error(`Ошибка запроса товаров: ${error}`);
