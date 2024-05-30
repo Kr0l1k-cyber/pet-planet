@@ -3,20 +3,10 @@ const API_URL ='https://kind-frost-servant.glitch.me';
 const buttons = document.querySelectorAll('.store__category-button');
 const productList = document.querySelector('.store__list');
 const cartButton = document.querySelector('.store__cart-button');
+const modalOverlay = document.querySelector('.modal-overlay');
+const cartItemsList = document.querySelector('.modal__cart-items');
+const modalCloseButton = document.querySelector('.modal-overlay__close-button');
 
-const changeActiveBtn = event => {
-	const target = event.target
-
-	buttons.forEach(button => {
-		button.classList.remove('store__category-button_active')
-	});
-
-	target.classList.add('store__category-button_active')
-};
-
-buttons.forEach(button => {
-	button.addEventListener('click', changeActiveBtn)
-});
 
 const createProductCard = (product) => {
 	const productCard = document.createElement('li');
@@ -40,7 +30,7 @@ const renderProducts = (products) => {
 
 		productList.append(productCard);
 	});
-}
+};
 
 const fettchProductByCategory = async (category) => {
 	try {
@@ -59,6 +49,21 @@ const fettchProductByCategory = async (category) => {
 		console.error(`Ошибка запроса товаров: ${error}`);
 	}
 
-}
+};
 
-fettchProductByCategory('Домики')
+const changeCategory = event => {
+	const target = event.target
+
+	buttons.forEach(button => {
+		button.classList.remove('store__category-button_active');
+	});
+
+	target.classList.add('store__category-button_active');
+};
+
+buttons.forEach((button) => {
+	button.addEventListener('click', changeCategory);
+
+	fettchProductByCategory('Домики');
+});
+
