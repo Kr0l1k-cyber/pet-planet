@@ -70,3 +70,14 @@ buttons.forEach((button) => {
 	
 });
 
+cartButton.addEventListener('click', () => {
+	modalOverlay.style.display = 'flex';
+});
+
+modalOverlay.addEventListener('click', (event) => {
+	const target = event.target;
+	console.log('target', target);
+	if (target === modalOverlay || target.closest(".modal-overlay__close-button")) {
+	modalOverlay.style.display = 'none';
+	};
+});
