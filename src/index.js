@@ -8,20 +8,21 @@ const cartItemsList = document.querySelector('.modal__cart-items');
 const modalCloseButton = document.querySelector('.modal-overlay__close-button');
 
 
-const createProductCard = (product) => {
+const createProductCard = ({photoUrl, name, price}) => {
 	const productCard = document.createElement('li');
 	productCard.classList.add('store__item');
 	productCard.innerHTML =
 		`<article class="store__product product">
-			<img src="${API_URL}${product.photoUrl}" alt="${product.name}" class="product__image" width="388" height="261">
-			<h3 class="product__title">${product.name}</h3>
-			<p class="product__price">${product.price}&nbsp;₽</p>
+			<img src="${API_URL}${photoUrl}" alt="${name}" class="product__image" width="388" height="261">
+			<h3 class="product__title">${name}</h3>
+			<p class="product__price">${price}&nbsp;₽</p>
 			<button class="product__btn-add-cart">Заказать</button>
 		</article>
 		`;
 
 		return productCard;
 };
+// Заполняет карточки из БД
 
 const renderProducts = (products) => {
 	productList.textContent = "";
@@ -51,8 +52,7 @@ const fettchProductByCategory = async (category) => {
 
 };
 
-const changeCategory = event => {
-	const target = event.target
+const changeCategory = ({target}) => {
 	const category = target.textContent;
 	buttons.forEach(button => {
 		button.classList.remove("store__category-button_active");
@@ -61,6 +61,7 @@ const changeCategory = event => {
 	target.classList.add("store__category-button_active");
 	fettchProductByCategory(category);
 };
+// Вешает класс на активной кнопки категорий
 
 buttons.forEach((button) => {
 	button.addEventListener('click', changeCategory);
@@ -69,15 +70,28 @@ buttons.forEach((button) => {
 	};
 	
 });
+// Меняет кнопку категорий товаров
 
 cartButton.addEventListener('click', () => {
 	modalOverlay.style.display = 'flex';
 });
+// Показывает модальное окно
 
-modalOverlay.addEventListener('click', (event) => {
-	const target = event.target;
+modalOverlay.addEventListener('click', ({target}) => {
 	console.log('target', target);
 	if (target === modalOverlay || target.closest(".modal-overlay__close-button")) {
 	modalOverlay.style.display = 'none';
 	};
 });
+// Прячет модальное окно
+
+
+const addToCart = (productName) => {
+	const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+	cartItems.push(productName);
+	localStorage.setItem("cartItems", JSON.stringify(cartItems));
+	updateCartCount();
+	console.log('cartItems: ', cartItems);
+};
+// Добавляет в корзину
+addToCart ();
