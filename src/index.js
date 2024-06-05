@@ -73,14 +73,27 @@ buttons.forEach((button) => {
 });
 // Меняет кнопку категорий товаров
 
+const renderCartItems = () => {
+	cartItemsList.textContent = "";
+	const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+	cartItems.forEach(item => {
+		const listItem = document.createElement('li');
+		listItem.textContent = item;
+		cartItemsList.append(listItem);
+	})
+};
+// показывает товары в модальном окне корзины
+
 cartButton.addEventListener('click', () => {
-	modalOverlay.style.display = 'flex';
+	modalOverlay.style.display = 'flex';	
+	renderCartItems();
 });
 // Показывает модальное окно
 
 modalOverlay.addEventListener('click', ({target}) => {
 	console.log('target', target);
-	if (target === modalOverlay || target.closest(".modal-overlay__close-button")) {
+	if (target === modalOverlay || target.closest(".modal-overlay__close-button"));
+{
 	modalOverlay.style.display = 'none';
 	};
 });
