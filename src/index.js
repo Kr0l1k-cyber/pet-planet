@@ -90,8 +90,17 @@ const addToCart = (productName) => {
 	const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
 	cartItems.push(productName);
 	localStorage.setItem("cartItems", JSON.stringify(cartItems));
-	updateCartCount();
-	console.log('cartItems: ', cartItems);
+	// updateCartCount();
+	// console.log('cartItems: ', cartItems);
 };
 // Добавляет в корзину
-addToCart ();
+// addToCart ();
+
+productList.addEventListener('click', ({ target }) => {
+	if (target.closest(".product__btn-add-cart")) {
+		const productCard = target.closest('.store__product');
+		const productName = productCard.querySelector('.product__title').textContent;
+		addToCart(productName)
+	};
+});
+// кнопка добавления в корзину, функция
