@@ -3,6 +3,7 @@ const API_URL ='https://arrow-tricky-engineer.glitch.me';
 const buttons = document.querySelectorAll('.store__category-button');
 const productList = document.querySelector('.store__list');
 const cartButton = document.querySelector('.store__cart-button');
+const cartCount = cartButton.querySelector(".store__cart-cnt");
 const modalOverlay = document.querySelector('.modal-overlay');
 const cartItemsList = document.querySelector('.modal__cart-items');
 const modalCloseButton = document.querySelector('.modal-overlay__close-button');
@@ -85,12 +86,18 @@ modalOverlay.addEventListener('click', ({target}) => {
 });
 // Прячет модальное окно
 
+const updateCartCount = () => {
+	const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+	cartCount.textContent = cartItems.length;
+};
+// функция которая показывает циферки  на значке корзины
+updateCartCount();
 
 const addToCart = (productName) => {
 	const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
 	cartItems.push(productName);
 	localStorage.setItem("cartItems", JSON.stringify(cartItems));
-	// updateCartCount();
+	updateCartCount();
 	// console.log('cartItems: ', cartItems);
 };
 // Добавляет в корзину
