@@ -1,4 +1,5 @@
 @use "default";
+@use "fonts";
 @use "variables";
 @use "components/header";
 @use "components/hero";
@@ -9,5 +10,6 @@
 @use "components/store";
 @use "components/product";
 @use "components/modal";
+@use "components/radio";
 
 @import "normalize.css";
