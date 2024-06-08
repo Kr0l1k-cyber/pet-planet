@@ -47,57 +47,100 @@
             "image count price";
         grid-template-columns: 54px 1fr max-content;
         gap: 8px 12px;
-    }
+        padding-top: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(#2e3514, 0.04);
+        &:first-child {
+            padding-top: 0;
+        }
+        &:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
 
-    &__cart-item-image {
-        grid-area: image;
-        width: 54px;
-        height: 54px;
-        object-fit: cover;
-        align-self: center;
-    }
+        &-image {
+            grid-area: image;
+            width: 54px;
+            height: 54px;
+            object-fit: cover;
+            align-self: center;
+            object-position: center;
+        }
 
-    &__cart-item-title {
+        &-title {            
         grid-area: title;
+        font-weight: 400;
+        font-size: 16px;
+        }
+
+        &-count {
+            grid-area: count;
+            max-width: 74px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        &-price {
+            grid-area: price;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
     }
 
-    &__cart-item-count {
-        grid-area: count;
-    }
-    
-    &__cart-item-price {
-        grid-area: price;
-    }
 
-    &__minus {
+    &__btn {
+        border: 1px solid $green;
+        border-radius: 6px;
+        width: 24px;
+        height: 24px;
+        color: inherit;
     }
-
-    &__count {
-    }
-
-    &__plus {
-    }
-
 
     &__cart-fieldst {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        margin-bottom: 16px;
     }
 
     &__cart-legend {
+        font-weight: 700;
+        font-size: 16px;
+        margin-bottom: 4px;
     }
 
     &__radio {
+        display: block;
+        font-weight: 400;
+        font-size: 16px;
     }
 
     &__cart-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     &__cart-price {
+        font-weight: 700;
+        font-size: 16px;
+        color: $purple;
     }
 }
 
 .button {
 
     &__cart-button {
+        font-weight: 700;
+        font-size: 16px;
+        text-align: center;
+        color: $light;
+        background-color: $purple;
+        border-radius: 40px;
+        padding: 12px 24px;
     }
 }
 
