@@ -4,7 +4,7 @@ const buttons = document.querySelectorAll('.store__category-button');
 const productList = document.querySelector('.store__list');
 const cartButton = document.querySelector('.store__cart-button');
 const cartCount = cartButton.querySelector(".store__cart-cnt");
-const modalOverlay = document.querySelector('.modal-overlay');
+const modalOverlay = document.querySelector(".modal-overlay");
 const cartItemsList = document.querySelector('.modal__cart-items');
 const modalCloseButton = document.querySelector('.modal-overlay__close-button');
 
@@ -92,11 +92,10 @@ cartButton.addEventListener('click', () => {
 
 modalOverlay.addEventListener('click', ({target}) => {
 	console.log('target', target);
-	if (target === modalOverlay || target.closest(".modal-overlay__close-button"));
-{
-	modalOverlay.style.display = 'none';
-	};
-});
+	if (target === modalOverlay || target.closest(".modal-overlay__close-button")) {
+	  modalOverlay.style.display = 'none';
+	}
+  });
 // Прячет модальное окно
 
 const updateCartCount = () => {
