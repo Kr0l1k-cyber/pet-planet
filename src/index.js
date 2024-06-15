@@ -7,7 +7,8 @@ const cartCount = cartButton.querySelector(".store__cart-cnt");
 const modalOverlay = document.querySelector(".modal-overlay");
 const cartItemsList = document.querySelector(".modal__cart-items");
 const modalCloseButton = document.querySelector(".modal-overlay__close-button");
-const cartTotalPriceElement = document.querySelector('.modal__cart-price');
+const cartTotalPriceElement = document.querySelector(".modal__cart-price");
+const cartForm = document.querySelector('.modal__cart-form');
 
 
 // Функция для создания карточки товара
@@ -80,6 +81,21 @@ buttons.forEach((button) => {
     }
 });
 
+// Функция для подсчета суммы корзины
+const calculateTotalPrice = (cartItems, products) => 
+    cartItems.reduce((acc, item) => {
+        const product = products.find((prod) => Number(prod.id) === Number(item.id));
+
+        console.log("item:", item);
+        console.log("product found:", product);
+
+        if (product) {
+            return acc + product.price * item.count;
+        }
+        return acc;
+        
+},0);
+
 // Функция для рендера товаров в корзине
 const renderCartItems = async () => {
     cartItemsList.textContent = "";
@@ -87,8 +103,14 @@ const renderCartItems = async () => {
     const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
     const products = JSON.parse(localStorage.getItem("cartProductDetails") || "[]");
 
+    // console.log("cartItems:", cartItems);
+    // console.log("products:", products);
+
     products.forEach(({ id, photoUrl, name, price }) => {
-        const cartItem = cartItems.find((item) => item.id == id);
+        const cartItem = cartItems.find((item) => item.id == id);        
+        
+        // console.log(`cartItem for product id ${id}:`, cartItem);
+
         if (!cartItem) return;  // ИСПРАВЛЕНО: меняем !== на == чтобы правильно сравнить типы
 
         const listItem = document.createElement('li');
@@ -107,6 +129,10 @@ const renderCartItems = async () => {
     });
 
     const totalPrice = calculateTotalPrice(cartItems, products);
+
+    console.log("totalPrice:", totalPrice)
+
+    cartTotalPriceElement.innerHTML = `${totalPrice}&nbsp;₽`;
 };
 
 // Обработчик клика на кнопку корзины для отображения модального окна
@@ -116,6 +142,7 @@ cartButton.addEventListener('click', async () => {
     const ids = cartItems.map(item => item.id);
 
     if (!ids.length) {
+        cartItemsList.textContent = "";
         const listItem = document.createElement('li');
         listItem.textContent = 'Корзина пуста';
         cartItemsList.append(listItem);
