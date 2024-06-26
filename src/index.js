@@ -86,8 +86,8 @@ const calculateTotalPrice = (cartItems, products) =>
     cartItems.reduce((acc, item) => {
         const product = products.find((prod) => Number(prod.id) === Number(item.id));
 
-        console.log("item:", item);
-        console.log("product found:", product);
+        // console.log("item:", item);
+        // console.log("product found:", product);
 
         if (product) {
             return acc + product.price * item.count;
@@ -130,10 +130,11 @@ const renderCartItems = async () => {
 
     const totalPrice = calculateTotalPrice(cartItems, products);
 
-    console.log("totalPrice:", totalPrice)
+    // console.log("totalPrice:", totalPrice)
 
     cartTotalPriceElement.innerHTML = `${totalPrice}&nbsp;₽`;
-};
+
+    };
 
 // Обработчик клика на кнопку корзины для отображения модального окна
 cartButton.addEventListener('click', async () => {
@@ -190,4 +191,35 @@ productList.addEventListener('click', ({ target }) => {
         const productId = parseInt(target.dataset.id, 10);
         addToCart(productId);
     }
+});
+// Добавляет количество плюсом и минусом
+
+const updateCartItem = (productId, change) => {
+    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    const itemIndex = cartItems.findIndex(item => item.id == productId)
+
+    if(itemIndex !== -1) {
+        cartItems[itemIndex].count += change
+
+        if(cartItems[itemIndex].count <= 0) {
+            cartItems.splice(itemIndex, 1);
+        };
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+        updateCartCount();
+        renderCartItems();
+    };
+};
+
+cartItemsList.addEventListener('click', ({target}) => {
+    console.log("target: ", target);
+    if (target.classList.contains("modal__plus")) {
+        const productId = target.dataset.id;
+        updateCartItem(productId, 1);
+    };
+
+    if (target.classList.contains("modal__minus")) {
+        const productId = target.dataset.id;
+        updateCartItem(productId, -1);
+    };
 });
