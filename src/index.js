@@ -8,7 +8,7 @@ const modalOverlay = document.querySelector(".modal-overlay");
 const cartItemsList = document.querySelector(".modal__cart-items");
 const modalCloseButton = document.querySelector(".modal-overlay__close-button");
 const cartTotalPriceElement = document.querySelector(".modal__cart-price");
-const cartForm = document.querySelector('.modal__cart-form');
+const cartForm = document.querySelector(".modal__cart-form");
 
 
 // Функция для создания карточки товара
@@ -212,7 +212,7 @@ const updateCartItem = (productId, change) => {
 };
 
 cartItemsList.addEventListener('click', ({target}) => {
-    console.log("target: ", target);
+    // console.log("target: ", target);
     if (target.classList.contains("modal__plus")) {
         const productId = target.dataset.id;
         updateCartItem(productId, 1);
@@ -222,4 +222,8 @@ cartItemsList.addEventListener('click', ({target}) => {
         const productId = target.dataset.id;
         updateCartItem(productId, -1);
     };
+});
+
+cartForm.addEventListener('submit', (e) => { 
+    e.preventDefault();
 });
