@@ -10,6 +10,22 @@ const modalCloseButton = document.querySelector(".modal-overlay__close-button");
 const cartTotalPriceElement = document.querySelector(".modal__cart-price");
 const cartForm = document.querySelector(".modal__cart-form");
 
+const orderMessageElemet = document.createElement('div');
+orderMessageElemet.classList.add('order-message');
+
+const orderMessageText = document.createElement('p');
+orderMessageText.classList.add('order-message__text');
+
+const orderMessageCloseButton = document.createElement('button');
+orderMessageCloseButton.classList.add('order-message__close-button');
+orderMessageCloseButton.textContent = "Закрыть";
+
+orderMessageElemet.append(orderMessageText, orderMessageCloseButton)
+
+orderMessageCloseButton.addEventListener('click', () => {
+    orderMessageElemet.remove();
+});
+
 
 // Функция для создания карточки товара
 const createProductCard = ({ id, photoUrl, name, price }) => {
@@ -224,6 +240,44 @@ cartItemsList.addEventListener('click', ({target}) => {
     };
 });
 
-cartForm.addEventListener('submit', (e) => { 
+const submitOrder = async (e) => {
     e.preventDefault();
-});
+    const storeId = cartForm.store.value;
+    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    console.log('cartItems: ', cartItems);
+    const products = cartItems.map(({id, count}) => ({
+        
+        id,
+        quantity: count,
+    }));
+    
+    try {
+        const response = await fetch(`${API_URL}/api/orders`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ storeId, products }),
+        });
+
+        if (!response.ok) {
+            throw new Error(response.status)
+        };
+
+        localStorage.removeItem("cartItems");
+        localStorage.removeItem("cartProductDetails");
+
+        const {orderId} = await response.json();
+
+        orderMessageText.textContent = `Ваш заказ оформлен, №${orderId}, можете забрать завтра после 12.00`;
+
+        document.body.append(orderMessageElemet);
+
+        modalOverlay.style.display = `none`;
+        updateCartCount();
+    } catch (error) {
+        console.error(`ошибка оформления заказа: ${error}`);
+    }
+};
+
+cartForm.addEventListener('submit', submitOrder);
